@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - 'database:/var/lib/mysql'
+
+  redis:
+    image: redis:6.0
+
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - 'database'
+      - 'redis'
+      - 'elasticsearch'
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/app'
+      - 'bundle:/usr/local/bundle'
+    environment:
+      DATABASE_NAME_DEV: chat_system
+      DATABASE_NAME_TEST: chat_system_test
+      DATABASE_HOST: database
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      REDIS_HOST: redis
+      ELASTICSEARCH_URL: elasticsearch
+
+  sidekiq:
+    build: .
+    restart: always
+    depends_on:
+      - 'app'
+      - 'database'
+      - 'redis'
+      - 'elasticsearch'
+    volumes:
+      - '.:/app'
+      - 'bundle:/usr/local/bundle'
+    environment:
+      DATABASE_NAME_DEV: chat_system
+      DATABASE_NAME_TEST: chat_system_test
+      DATABASE_HOST: database
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      DATABASE_SOCKET:
+      REDIS_HOST: redis
+      RAILS_ENV: development
+      ELASTICSEARCH_URL: elasticsearch
+    entrypoint: ./sidekiq-entrypoint.sh
+
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - 'elasticsearch:/usr/share/elasticsearch/data'
+    ports:
+      - '9200:9200'
+
+volumes:
+  database:
+  bundle:
+  elasticsearch:
