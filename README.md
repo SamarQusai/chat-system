@@ -19,12 +19,14 @@ Requirements
 ------------
 * Docker
 
-Running
+How to run
 --------
 ```bash
 $ git clone git@github.com:SamarQusai/chat-system.git
 $ cd chat-system/
 $ docker-compose up
 ```
-APIs
-----
+APIs (Postman)
+-------------
+* Import [this json](https://www.getpostman.com/collections/a1da6a5af82a21ca938c) to postman
+  https://www.getpostman.com/collections/a1da6a5af82a21ca938c
