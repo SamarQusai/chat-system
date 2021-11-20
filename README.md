@@ -28,5 +28,5 @@ $ docker-compose up
 ```
 APIs (Postman)
 -------------
-* Import [this json](https://www.getpostman.com/collections/a1da6a5af82a21ca938c) to postman. <br/>
-  https://www.getpostman.com/collections/a1da6a5af82a21ca938c
+* Import [this json](https://www.postman.com/collections/a1da6a5af82a21ca938c) to postman. <br/>
+  https://www.postman.com/collections/a1da6a5af82a21ca938c
