@@ -4,6 +4,7 @@ class Message < ApplicationRecord
 
   belongs_to :chat
 
+  validates :body, presence: true
   validates :sequential_number, presence: true
   validates :sequential_number, uniqueness: {scope: :chat}
 
