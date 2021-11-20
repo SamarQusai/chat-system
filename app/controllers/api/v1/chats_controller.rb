@@ -7,7 +7,12 @@ module Api
         chats = @application.chats
         render json: chats.to_json(only: [:sequential_number]), status: :ok
       end
-      
+
+      def show
+        chat = @application.chats.find_by(sequential_number: params[:sequential_number])
+        render json: chat.as_json(only: :sequential_number), status: :ok
+      end
+
       def create
         redis_service = RedisService.new()
         chats_count = redis_service.cache_chats_count(@application)
