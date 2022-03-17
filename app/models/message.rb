@@ -8,9 +8,17 @@ class Message < ApplicationRecord
   validates :sequential_number, presence: true
   validates :sequential_number, uniqueness: {scope: :chat}
 
-  settings do
+  settings analysis: {
+    analyzer: {
+      search_analyzer: {
+        type: 'custom',
+        tokenizer: 'standard',
+        filter: ['lowercase']
+      }
+    }
+  } do
     mappings dynamic: false do
-      indexes :body, type: :text
+      indexes :body, type: :text, analyzer: "search_analyzer"
     end
   end
 
